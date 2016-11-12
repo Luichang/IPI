@@ -5,15 +5,26 @@ double sq(double x){
 	return x;
 }
 
+double even(double x, int n){
+	std::cout << "Even" << std::endl;
+	x = sq(x);
+	return x;
+}
+
+double odd(double x, int n){
+	std::cout << "not woking yet" << std::endl;
+	return x;
+}
+
 double power(double x, int n){
-	int m = n;
-	double y = 0;
-	double z = 0;
-	double result = 0;
-	(n > 7) ? ((m % 2 == 0) ? y = sq(x) : y = sq(x), m = m / 2) : y = x;
-	(n > 3) ? ((m % 2 == 0) ? z = sq(y) : z = sq(y), m = m / 2) : z = y;
-	(m > 0) ? (m == 1) ? result = z : (m % 2 == 1) ? result = sq(z), result = x * result : result = sq(z) : result = z;
-	return result;
+	std::cout << x << std::endl;
+	(n > 0) ? (n == 1) ? x = x : (n % 2 == 1) ? x, n = odd(x, n) : x = even(x, n), n = n / 2 : x = x;
+	std::cout << x << std::endl;
+	(n > 0) ? (n == 1) ? x = x : (n % 2 == 1) ? x, n = odd(x, n) : x = even(x, n), n = n / 2 : x = x;
+	std::cout << x << std::endl;
+	(n > 0) ? (n == 1) ? x = x : (n % 2 == 1) ? x, n = odd(x, n) : x = even(x, n), n = n / 2 : x = x;
+	std::cout << x << std::endl;
+	return x;
 }
 
 int main(){
