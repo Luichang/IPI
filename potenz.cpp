@@ -6,13 +6,14 @@ double sq(double x){
 }
 
 double power(double x, int n){
+	int m = n;
 	double y = 0;
 	double z = 0;
-	(n > 0) ? (n == 1) ? y = x : (n % 2 == 1) ? y = sq(x), y = x * y : y = sq(x) : y = x;
-	(n > 0) ? (n == 1) ? n = n : (n % 2 == 1) ? n = n - 3 : n = n / 2 : n = n;
-	(n > 0) ? (n == 1) ? z = y : (n % 2 == 1) ? z = sq(y), z = y * z : z = sq(y) : z = y;
-	(n > 0) ? (n == 1) ? n = n : (n % 2 == 1) ? n = n - 3 : n = n / 2 : n = n;
-	return z;
+	double result = 0;
+	(n > 7) ? ((m % 2 == 0) ? y = sq(x) : y = sq(x), m = m / 2) : y = x;
+	(n > 3) ? ((m % 2 == 0) ? z = sq(y) : z = sq(y), m = m / 2) : z = y;
+	(m > 0) ? (m == 1) ? result = z : (m % 2 == 1) ? result = sq(z), result = x * result : result = sq(z) : result = z;
+	return result;
 }
 
 int main(){
@@ -25,6 +26,7 @@ int main(){
 		std::cin >> x;
 		std::cout << "Please enter the potenz of x" << std::endl;
 		std::cin >> n;
+		
 		result = power(x, n);
 		std::cout << "the answer provided was: " << result << std::endl;
 		std::cout << "Would you like to enter another number? 'yes' to continue, 'no' to quit" << std::endl; 
