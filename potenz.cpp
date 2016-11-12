@@ -6,24 +6,39 @@ double sq(double x){
 }
 
 double even(double x, int n){
-	std::cout << "Even" << std::endl;
+	//std::cout << "Even" << std::endl;
 	x = sq(x);
 	return x;
 }
 
+bool oddNumber;
+
 double odd(double x, int n){
-	std::cout << "not woking yet" << std::endl;
+	//std::cout << "Odd" << std::endl;
+	x = even(x, n);
+	oddNumber = true;
 	return x;
 }
 
 double power(double x, int n){
-	std::cout << x << std::endl;
-	(n > 0) ? (n == 1) ? x = x : (n % 2 == 1) ? x, n = odd(x, n) : x = even(x, n), n = n / 2 : x = x;
-	std::cout << x << std::endl;
-	(n > 0) ? (n == 1) ? x = x : (n % 2 == 1) ? x, n = odd(x, n) : x = even(x, n), n = n / 2 : x = x;
-	std::cout << x << std::endl;
-	(n > 0) ? (n == 1) ? x = x : (n % 2 == 1) ? x, n = odd(x, n) : x = even(x, n), n = n / 2 : x = x;
-	std::cout << x << std::endl;
+	oddNumber = false;
+	double y = x;
+	int m = n;
+	//int test = 0;
+	(n > 0) ? (n == 1) ? x = x/*, test = test + 1*/ : (n % 2 == 1) ? x = odd(x, n)/*, test = test + 2*/, m = n - 1 : x = even(x, n), m = n / 2/*, test = test + 4*/ : x = x/*, test = test + 8*/;
+	n = m;
+	/*std::cout << x << " " << test << std::endl;
+	test = 0;*/
+	(n > 0) ? (n == 1) ? x = x/*, test = test + 1*/ : (n % 2 == 1) ? x = odd(x, n)/*, test = test + 2*/, m = n - 1 : x = even(x, n), m = n / 2/*, test = test + 4*/ : x = x/*, test = test + 8*/;
+	n = m;
+	/*std::cout << x << " " << test << std::endl;
+	test = 0;*/
+	(n > 0) ? (n == 1) ? x = x/*, test = test + 1*/ : (n % 2 == 1) ? x = odd(x, n)/*, test = test + 2*/, m = n - 1 : x = even(x, n), m = n / 2/*, test = test + 4*/ : x = x/*, test = test + 8*/;
+	n = m;
+	/*std::cout << x << " " << test << std::endl;
+	test = 0;
+	std::cout << oddNumber << std::endl;*/
+	(oddNumber == 1) ? x = x * y : x = x;
 	return x;
 }
 
