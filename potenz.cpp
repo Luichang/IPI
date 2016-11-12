@@ -20,7 +20,7 @@ double odd(double x, int n){
 	return x;
 }
 
-double power(double x, int n){
+double power(double x, int n){ // this works for every n between 1 and 8 except for n = 6 and n = 7
 	oddNumber = false;
 	double y = x;
 	int m = n;
