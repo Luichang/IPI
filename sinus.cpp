@@ -8,13 +8,6 @@ double calcAngle(double angle){
 	return result;
 }
 
-double changeX(double x){
-	(x < - M_PI) ? x = x + changeX(x + 2 * M_PI) 
-		: (x > M_PI) ? x = x - changeX( x - 2 * M_PI)
-			: x = x;
-	return x;
-}
-
 double taylor_sin(double x){
 	x = calcAngle(x);
 	x = x-(x * x * x) / 6;							//annäherungs funktion für sinus
@@ -32,8 +25,7 @@ double pump_sin(double sin_third){
 double my_sin(double x){
 	//double bogenmas = calcAngle(x);
 	(std::abs(x) <= 9) ? x = taylor_sin(x) 
-		: x = my_sin(x / 3.0);
-	pump_sin(x);
+		: x = pump_sin(my_sin(x / 3.0));
 	return x;
 }
 
@@ -51,14 +43,13 @@ int main(){
 		std::cout << "Please enter an Angle" << std::endl;
 		std::cin >> input;							// annahme des winkels
 		//angle = calcAngle(input);					// winkel zu bogenmas convertieren
-		x = changeX(input);
-		approx = my_sin(x);
-		approx1 = taylor_sin(x);				// rufen der funktion um sinus anzunähern
-		approx2 = pump_sin(x / 3);					// rufen der funktion um sinus anzunähern
+		approx = my_sin(input);
+		approx1 = taylor_sin(input);				// rufen der funktion um sinus anzunähern
+		approx2 = pump_sin(input / 3);					// rufen der funktion um sinus anzunähern
 		calc = calcSin(input);						// rufen der function um sinus genau zu berechnen
-		std::cout << "The answer for the approximation is:		" << approx << std::endl;
-		std::cout << "The answer for the first approximation is:	" << approx1 << std::endl;
-		std::cout << "The answer for the second approximation is:	" << approx2 << std::endl;
+		std::cout << "The answer for the my_sin is:			" << approx << std::endl;
+		std::cout << "The answer for the taylor_sin is:		" << approx1 << std::endl;
+		std::cout << "The answer for the pump_sin is:			" << approx2 << std::endl;
 		std::cout << "The implemented version of Sin resulted in:	" << calc << std::endl;
 		std::cout << "Would you like to enter another number? 'yes' to continue, 'no' to quit" << std::endl; 
 		std::cin >> cont;							// annahme der break variable
