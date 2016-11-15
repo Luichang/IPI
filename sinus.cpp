@@ -3,19 +3,11 @@
 #include <cmath>
 #include <iostream>
 
-/*double reduceX(double x){
-	double twoPi = 2 * M_PI;
-	std::cout << x << std::endl;
-	(x < -M_PI) ? reduceX(x + twoPi)
-		: (x > M_PI) ? reduceX(x - twoPi)
-			: x = x;
-	return x;
-}*/
 
 double reduceX(double x){
 	double twoPi = 2 * M_PI;
-	double trunk = x / twoPi;
-	x = x - trunk * twoPi;
+	x = x -(int(x / twoPi) * twoPi);
+	std::cout << x << std::endl;
 	return x;
 }
 
