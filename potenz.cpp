@@ -29,3 +29,10 @@ int main(){
 		//std::cin >> cont;							// annahme der break variable
 	//}
 }
+
+/* 
+schlechte idee im fall "n ist gerade" frage:
+wie bei so vielem anderen in der informatik geht es auch hier bei um den effizientesten weg.
+mit unserer methode müssen wir so wenig rechen operationen durch gehen wie nötig um auf das selbe ergebnis zu kommen
+für und Menschen heißt das das wir unsere lösung "schneller" bekommen
+*/
