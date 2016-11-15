@@ -7,12 +7,12 @@
 double reduceX(double x){
 	double twoPi = 2 * M_PI;
 	x = x -(int(x / twoPi) * twoPi);
-	std::cout << x << std::endl;
+	//std::cout << x << std::endl;
 	return x;
 }
 
 double calcAngle(double angle){
-	double result = (2 * M_PI) / 360 * angle;		//diese funktion convertiert die eingabe in bogenmas um dann vom program verwendet werden zu können
+	double result = (angle * M_PI) / 180.;		//diese funktion convertiert die eingabe in bogenmas um dann vom program verwendet werden zu können
 	return result;
 }
 
@@ -23,19 +23,22 @@ double taylor_sin(double x){
 }
 
 double pump_sin(double sin_third){
-	//double approximation = taylor_sin(sin_third)/ 3;
-	//double approximation = sin_third / 3;
-	sin_third = calcAngle(sin_third);
-	sin_third = taylor_sin(sin_third);
+	//sin_third = calcAngle(sin_third);
+	//sin_third = taylor_sin(sin_third);
 	double approx = 3 * sin_third - 4 * (sin_third * sin_third * sin_third);
 	return approx;
 }
 
 double my_sin(double x){
-	//double bogenmas = calcAngle(x);
-	(std::abs(x) <= 9) ? x = taylor_sin(x) 
-		: x = pump_sin(my_sin(x / 3.0));
+	x = calcAngle(x);
+	x = reduceX(x);
+	(std::abs(x) <= 9) ? x = taylor_sin(x) : x = pump_sin(my_sin(x / 3.0));
 	return x;
+	/*
+	double b = bogen(x);
+	b = intervalPi(b);
+	return (std::abs(x) <= 9)? taylor_sin(b) : pump_sin(my_sin(x/3.));
+	*/
 }
 
 double calcSin(double angle){
@@ -82,9 +85,8 @@ int main(){
 		std::cout << "This program will take an angle and calculate the Sin value based on a Sin approximation and the implemented Sin function" << std::endl;
 		std::cout << "Please enter an Angle" << std::endl;
 		std::cin >> input;							// annahme des winkels
-		x = reduceX(input);
 		//angle = calcAngle(input);					// winkel zu bogenmas convertieren
-		approx = my_sin(x);
+		approx = my_sin(input);
 		//approx1 = taylor_sin(x);				// rufen der funktion um sinus anzunähern
 		//approx2 = pump_sin(x / 3);				// rufen der funktion um sinus anzunähern
 		calc = calcSin(input);						// rufen der function um sinus genau zu berechnen
