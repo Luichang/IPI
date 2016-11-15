@@ -7,7 +7,6 @@
 double reduceX(double x){
 	double twoPi = 2 * M_PI;
 	x = x -(int(x / twoPi) * twoPi);
-	//std::cout << x << std::endl;
 	return x;
 }
 
@@ -17,28 +16,21 @@ double calcAngle(double angle){
 }
 
 double taylor_sin(double x){
-	x = calcAngle(x);
-	x = x-(x * x * x) / 6;							//annäherungs funktion für sinus
+	//x = calcAngle(x);
+	x = x-((x * x * x) / 6);							//annäherungs funktion für sinus
 	return x;
 }
 
 double pump_sin(double sin_third){
-	//sin_third = calcAngle(sin_third);
-	//sin_third = taylor_sin(sin_third);
 	double approx = 3 * sin_third - 4 * (sin_third * sin_third * sin_third);
 	return approx;
 }
 
 double my_sin(double x){
-	x = calcAngle(x);
-	x = reduceX(x);
-	(std::abs(x) <= 9) ? x = taylor_sin(x) : x = pump_sin(my_sin(x / 3.0));
-	return x;
-	/*
-	double b = bogen(x);
-	b = intervalPi(b);
-	return (std::abs(x) <= 9)? taylor_sin(b) : pump_sin(my_sin(x/3.));
-	*/
+	double y = calcAngle(x);
+	y = reduceX(y);
+	(std::abs(x) <= 9) ? y = taylor_sin(y) : y = pump_sin(my_sin(x / 3.0));
+	return y;
 }
 
 double calcSin(double angle){
@@ -47,31 +39,32 @@ double calcSin(double angle){
 	return implemented;
 }
 
-void printSins(){  // einfache methode alle werte schnell und einfach zu zeigen.
-	int angles[10] = {5, 10, 20, 45, 90, 135, 180, 225, 270, 315};	// die frage bezüglich welche grad Zahl darf nicht überschritten werden 
-	double tS[10];													// weil die annäherung sonst zu ungenau ist lautet 9° 
-	double rS[10];
-	double diff[10];
+void printSins(){  												// einfache methode alle werte schnell und einfach zu zeigen.
+	int angles[20] = {-315, -270, -225, -180, -135, -90, -45, -20, -19, -5, 5, 10, 20, 45, 90, 135, 180, 225, 270, 315};	
+	double tS[20];												// die frage bezüglich welche grad Zahl darf nicht überschritten werden 
+	double rS[20];												// weil die annäherung sonst zu ungenau ist lautet 9° 
+	double diff[20];
 	double print;													
-	for(int i = 0; i < 10; i++){
-		print = taylor_sin(angles[i]);
-		tS[i] = print;
-		std::cout << "Die Annaeherung von taylor_sin fuer " << angles[i] << "	Grad ist " << print << std::endl;
+	for(int i = 0; i < 20; i++){
+		double x = calcAngle(angles[i]);
+		print = taylor_sin(x);
+		std::cout << "Die Annaherung von taylor_sin fuer " << angles[i] << "	Grad ist " << print << std::endl;
 	}
 	std::cout << std::endl;
-	for(int i = 0; i < 10; i++){
+	for(int i = 0; i < 20; i++){
 		print = my_sin(angles[i]);
-		std::cout << "Die Annaeherung von my_sin fuer " << angles[i] << "	Grad ist " << print << std::endl;
+		tS[i] = print;
+		std::cout << "Die Annaherung von my_sin fuer " << angles[i] << "	Grad ist " << print << std::endl;
 	}
 	std::cout << std::endl;
-	for(int i = 0; i < 10; i++){
+	for(int i = 0; i < 20; i++){
 		print = calcSin(angles[i]);
 		rS[i] = print;
 		diff[i] = rS[i] - tS[i];
 		std::cout << "Der richtige Sinus hat als loesung " << angles[i] << "	Grad ist " << print << std::endl;
 	}
 	std::cout << std::endl;
-	for(int i = 0; i < 10; i++){
+	for(int i = 0; i < 20; i++){
 		print = diff[i];
 		std::cout << "Die Abweichung liegt bei " << angles[i] << "		Grad " << print << std::endl;
 	}
