@@ -19,10 +19,10 @@ bool checkPeriod(string &s){
 	if(s.find('.') != string::npos){
 		position = s.find('.');
 	}
-	if(position == 0 || position == length - 1){
+	if(position == 0 && position == length - 1){
 		Validated = false;
 	} else {
-		
+		cout << "it works" << endl;
 	}
 	return Validated;
 }
