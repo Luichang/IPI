@@ -21,6 +21,6 @@ int main(){
 	//assert(pow(64, 1.0/3.0) == cbrt(64));
 	cout << "testing 0 = false 1 = true: " << (pow(64, 1.0/3.0) == cbrt(64)) << " " << pow(64, 1.0/3.0) << " " << cbrt(64) << endl;
 	//assert(pow(125, 1.0/3.0) == cbrt(125));
-	assert(-cbrt(y) == cbrt(-y));
-	//cout << cbrt(y) << endl;
+	//assert(-cbrt(y) == cbrt(-y));
+	cout << cbrt(y) << endl;
 }
