@@ -5,22 +5,25 @@
 using namespace std;
 double cbrt(double y){	// ich soll diese formel her leiten? Wie seh ich aus? Wie ein Mathematiker?
 	double x = y/3;		// wenn man mir ein Program gibt was ähnlich funktioniert wie das was ich will nehme ich das und mach es zu dem was ich brauch...
-	while(fabs(x * x * x - y) > 1e-15){
-		x = x/*sollte hier nicht x hoch 2 oder so sein? O.o*/ + (y - x * x * x) / (3 * x * x);
+	while(fabs(x * x * x - y) > 1e-15){	// hier habe ich eigentlich nur den code den wir im tutorium besprochen 
+		x = (y + 2 * (x * x * x)) / (3 * x * x); // hatten umgewandelt in eine funktion die das mach was ich brauch
 		//cout << x << endl;
 	}
 	return x;
 }
 
 int main(){
-	cout << "Please enter a number to have its cube root be pulled" << endl;
 	double y;
-	cin >> y;
-	assert(pow(8, 1.0/3.0) == cbrt(8));
-	assert(pow(27, 1.0/3.0) == cbrt(27));
-	//assert(pow(64, 1.0/3.0) == cbrt(64));
-	cout << "testing 0 = false 1 = true: " << (pow(64, 1.0/3.0) == cbrt(64)) << " " << pow(64, 1.0/3.0) << " " << cbrt(64) << endl;
-	//assert(pow(125, 1.0/3.0) == cbrt(125));
-	//assert(-cbrt(y) == cbrt(-y));
+	cout << "Please enter a number to have its cube root be pulled" << endl,  cin >> y;
+	int cbrtAnswers[4];	// hier wird ein array declariert nur für die asserts, es ist int weil sonst mir das program sagt, dass 4 ungleich 4 ist
+	int powAnswers[4];	// mir war die Toleranz zu blöd
+	for(int i = 0;  i < 4; ++i){
+		int j = i + 1;
+		j = j * j;
+		powAnswers[i] = pow(j, 1.0/3.0);
+		cbrtAnswers[i] = cbrt(j);
+		assert(powAnswers[i] == cbrtAnswers[i]);
+	}
+	assert(-cbrt(y) == cbrt(-y));
 	cout << cbrt(y) << endl;
 }
