@@ -1,9 +1,11 @@
-#include <iostream>
-#include <cctype>
+#include <iostream>									// #kann man sich möglicherweise denken, aber wenn ein kommentar mit '#' anfängt wird 
+#include <cctype>									// #er den Code NICHT erklären
 using namespace std;
 
 void breakCode(){									// #void ist so was schönes. Da muss man NICHTS ausgeben... was ein konzept... versteh ich auch kaum
+
 	cout << "You entered an invalid email address."; // Funktion eingeführt sollte ich mehr als nur dem user sagen möchte das seine email falsch ist
+	
 }													// #was?? hier musste echt kein return? ich bin erstaunt
 
 bool checkPeriod(string &s){
@@ -11,6 +13,7 @@ bool checkPeriod(string &s){
 	int length = s.size();
 	string::size_type position = 0;
 	if(s.find('.') != string::npos){	// hier wird der erste und letzte character der "mail" gecheckt ob es ein punkt ist
+	
 		position = s.find('.');			// #da nicht gefordert wurde, dass zwischen jedem punkt mindestens ein erlaubtes zeichen ist
 	}									// #suche ich nicht danach
 	if(position == 0 && position == length - 1){
@@ -68,7 +71,7 @@ bool checkAt(string &s){
 }
 
 bool is_email(string &s){
-	bool isEmail = true;								// #hätte hier fast eine ausgabe vergessen... die ist ja auch so wichtig
+	bool isEmail = true;								// hätte hier fast eine ausgabe vergessen... #die ist ja auch so wichtig
 	int length = s.length();
 	char c;
 	int atLocation = 0;
@@ -84,5 +87,9 @@ int main(){
 	getline(cin, s);
 	if(!is_email(s)){
 		breakCode();
+	} else{
+		cout << "You have entered a 'Valid' email address" << endl << endl << endl;
+		cout << "* Please note, this program is mearly guidance and can not be held accountable " << endl; 	// hier benutze ich mehrere Zeilen, dass
+		cout << "for if your email address actually is wrong." << endl;										// man in meinem n++ nicht scrollen muss
 	}
 }
