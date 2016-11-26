@@ -39,11 +39,13 @@ vector <string> findeLeerzeichen(string s){
     int i;     
 	string pickName;
     for(int i = 0; i < length; ++i){
-		if(s[i]) == " "){
+		if(s[i] == ' '){
 			Leerzeichen.push_back(pickName);
 		}else{
-			pickName =+ s[i];
+			pickName += s[i];
+			pickName = "";
 		}
+		Leerzeichen.push_back(pickName);
 	}
     return Leerzeichen;
 }
@@ -59,14 +61,14 @@ vector <string> split_words(string s)
 }
 
 int main () {
-    string s = "Alpha Beta!";
+    string s = "Alpha Beta! Gamma";
     string s1, s2;
     
-    findeLeerzeichen(s);
+    vector<string> c = findeLeerzeichen(s);
 	vector<string> b = split_words(s);
     
-	for(int i = 0; i < b.size(); ++i){
-		cout << b[i] << endl;
+	for(int i = 0; i < c.size(); ++i){
+		cout << c[i] << endl;
 	}
     
     return 0;
