@@ -28,7 +28,7 @@ bool check_deck(vector<int> cards){
 
 vector<int> shuffle(vector<int> cards, bool out){		// out seems like not the best variable choice, could mean output...
 	vector<int> new_deck;
-	displayVector(cards);
+	//displayVector(cards);
 	int counter = 0;
 	int maxI = 10;
 	if(out){
@@ -40,6 +40,7 @@ vector<int> shuffle(vector<int> cards, bool out){		// out seems like not the bes
 				++counter;
 			}
 		}
+		//cout << endl;
 	}else{
 		for(int i = 0; i < maxI; ++i){
 			if(i % 2 != 0){
@@ -49,9 +50,9 @@ vector<int> shuffle(vector<int> cards, bool out){		// out seems like not the bes
 				new_deck.push_back(cards[counter + (maxI / 2)]);
 			}
 		}
-		cout << endl;
+		//cout << endl;
 	}
-	displayVector(new_deck);
+	//displayVector(new_deck);
 	return new_deck;
 }
 
@@ -63,12 +64,11 @@ int main(){
 	while(!check_deck(shuffled_deck_in)){
 		shuffled_deck_in = shuffle(shuffled_deck_in, false);
 		++counter_in;
-		cout << "1Counter in is at " << counter_in << endl;
-		int in;
-		cin >> in;
+		cout << "Counter in is at " << counter_in << endl;
 	}
+	cout << endl;
 	while(!check_deck(shuffled_deck_out)){
-		shuffled_deck_in = shuffle(shuffled_deck_in, true);
+		shuffled_deck_out = shuffle(shuffled_deck_out, true);
 		++counter_out;
 		cout << "Counter in is at " << counter_out << endl;
 	}
