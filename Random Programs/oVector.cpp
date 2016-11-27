@@ -50,6 +50,12 @@ vector <string> findeLeerzeichen(string s){
     return Leerzeichen;
 }
 
+string randomizeWord(string s){
+	//add some way to detect first and last character, make sure there are not multiple non alphabetic characters
+	random_shuffle(s.begin(), s.end());
+	return s;
+}
+
 vector <string> split_words(string s)					// diese funktion wurde übertragen aus dem was ich ursprünglich gezeigt bekommen habe
 {
     vector<string> v1;    
@@ -69,6 +75,7 @@ int main () {
 	vector<string> b = split_words(s);
     
 	for(int i = 0; i < c.size(); ++i){					// hier wird jedes wort einzeln ausgespuckt
+		c[i] = randomizeWord(c[i]);
 		cout << c[i] << endl;
 	}
     
