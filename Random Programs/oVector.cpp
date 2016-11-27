@@ -41,12 +41,12 @@ vector <string> findeLeerzeichen(string s){
     for(int i = 0; i < length; ++i){
 		if(s[i] == ' '){
 			Leerzeichen.push_back(pickName);
+			pickName = "";
 		}else{
 			pickName += s[i];
-			pickName = "";
 		}
-		Leerzeichen.push_back(pickName);
 	}
+	Leerzeichen.push_back(pickName);
     return Leerzeichen;
 }
 
@@ -61,8 +61,9 @@ vector <string> split_words(string s)
 }
 
 int main () {
-    string s = "Alpha Beta! Gamma";
-    string s1, s2;
+    string s;
+	cout << "Please enter a sentence" << endl;
+	getline(cin, s);
     
     vector<string> c = findeLeerzeichen(s);
 	vector<string> b = split_words(s);
