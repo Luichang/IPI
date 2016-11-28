@@ -1,9 +1,10 @@
 #include <iostream>
 #include <vector>
+#include <cassert>
 
 using namespace std;
 
-void displayVector(vector<int> cards){
+void displayVector(vector<int> cards){							// created this as a help to see what numbers were being displayed
 	for(int i = 0; i < cards.size(); ++i){						//I keep forgetting how to use for_each and how to force the terminal to use c++11
 		int outInt = cards[i];
 		cout << outInt;
@@ -12,7 +13,7 @@ void displayVector(vector<int> cards){
 
 vector<int> init_deck(){										// not sure if this is the most self explanatory function ever or what
 	vector<int> deck;											// but it initialises the deck of cards
-	for(int i = 0; i < 52; ++i){
+	for(int i = 0; i < 52; ++i){								// obviously for testing used a smaller sample size
 		deck.push_back(i);
 	}
 	return deck;
@@ -28,7 +29,6 @@ bool check_deck(vector<int> cards){								// this just wants to check if the ca
 
 vector<int> shuffle(vector<int> cards, bool out){		// out seems like not the best variable choice, could mean output...
 	vector<int> new_deck;
-	//displayVector(cards);
 	int counter = 0;
 	int maxI = 52;		// at one point I was having huge problems with the vector getting messed up so I just added 
 	if(out){			// this variable to try and stop it from not working
@@ -40,7 +40,6 @@ vector<int> shuffle(vector<int> cards, bool out){		// out seems like not the bes
 				++counter;
 			}
 		}
-		//cout << endl;
 	}else{
 		for(int i = 0; i < maxI; ++i){
 			if(i % 2 != 0){
@@ -50,17 +49,19 @@ vector<int> shuffle(vector<int> cards, bool out){		// out seems like not the bes
 				new_deck.push_back(cards[counter + (maxI / 2)]);
 			}
 		}
-		//cout << endl;
 	}
-	//displayVector(new_deck);
 	return new_deck;
 }
 
 int main(){
 	int counter_in = 0;
 	int counter_out = 0;
-	vector<int> shuffled_deck_in = shuffle(init_deck(), false);		// the dumbest thing that can happen to you is if you are copying working
-	vector<int> shuffled_deck_out = shuffle(init_deck(), true);		// code and use it for something new, and only change half the variable names
+	vector<int> shuffled_deck_in = init_deck();
+	assert(shuffled_deck_in == check_deck(shuffled_deck_in));		// assert is anoying
+	shuffled_deck_in = shuffle(init_deck(), false);					// the dumbest thing that can happen to you is if you are copying working
+	vector<int> shuffled_deck_out = init_deck();					// code and use it for something new, and only change half the variable names
+	assert(shuffled_deck_out == check_deck(shuffled_deck_out));
+	shuffled_deck_out = shuffle(init_deck(), true);					
 	while(!check_deck(shuffled_deck_in)){
 		shuffled_deck_in = shuffle(shuffled_deck_in, false);
 		++counter_in;
