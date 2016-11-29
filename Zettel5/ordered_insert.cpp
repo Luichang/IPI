@@ -17,8 +17,8 @@ vector<int> sortList(vector<int> v, int insertInt){
 					v[j] = v[j-1];						// this goes through every bigger number and just 'pushes' it to the right
 				}
 				v[i] = insertInt;					// finally we enter the new number to the vector
-				i = v.size();
-			}
+				i = v.size();						// setting the value of i equal to the size so it won't continue to iterate,
+			}										// I prefer this over break for no particular reason
 		}
 		if(vectorLength == v.size()){				// should the vector not have a bigger number than the one entered it will simply place the new
 			v.push_back(insertInt);					// number at the end of the vector
@@ -35,8 +35,8 @@ int main(){
 		cin >> input;
 		if(abs(input) != input){
 			endCode = true;
-			for(int i = 0; i < orderedIntert.size(); ++i){		// tried for(int i; orderedIntert) but it would not work... need to look more into foreach
-				cout << orderedIntert[i] << " ,";				// lazy way of outputting the vector
+			for(int i; orderedIntert.size(); ++i){				// tried for(int i; orderedIntert) but it would not work... need to look more into foreach
+				cout << orderedIntert[i] << " ,";				// lazy way of outputting and seperating elements of the vector
 			}
 		}else {
 			orderedIntert = sortList(orderedIntert, input);		// if the number was not negative enter it into the vector
