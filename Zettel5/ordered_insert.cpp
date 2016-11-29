@@ -29,17 +29,17 @@ vector<int> sortList(vector<int> v, int insertInt){
 
 int main(){
 	int input;
-	vector<int> orderedIntert;
+	vector<int> orderedInsert;
 	bool endCode = false;
 	while(!endCode){
 		cin >> input;
 		if(abs(input) != input){
 			endCode = true;
-			for(int i; orderedIntert.size(); ++i){				// tried for(int i; orderedIntert) but it would not work... need to look more into foreach
-				cout << orderedIntert[i] << " ,";				// lazy way of outputting and seperating elements of the vector
+			for(int i = 0; i < orderedInsert.size(); ++i){				// tried for(int i; orderedInsert) but it would not work... need to look more into foreach
+				cout << orderedInsert[i] << " ,";				// lazy way of outputting and seperating elements of the vector
 			}
 		}else {
-			orderedIntert = sortList(orderedIntert, input);		// if the number was not negative enter it into the vector
+			orderedInsert = sortList(orderedInsert, input);		// if the number was not negative enter it into the vector
 		}
 	}
 }
