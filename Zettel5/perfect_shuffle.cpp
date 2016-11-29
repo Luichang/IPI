@@ -54,14 +54,14 @@ vector<int> shuffle(vector<int> cards, bool out){		// out seems like not the bes
 }
 
 int main(){
-	int counter_in = 0;
-	int counter_out = 0;
+	int counter_in = 1;
+	int counter_out = 1;
 	vector<int> shuffled_deck_in = init_deck();
-	assert(shuffled_deck_in == check_deck(shuffled_deck_in));		// assert is anoying
-	shuffled_deck_in = shuffle(init_deck(), false);					// the dumbest thing that can happen to you is if you are copying working
+	assert(check_deck(shuffled_deck_in));		// assert is anoying
+	shuffled_deck_in = shuffle(shuffled_deck_in, false);			// the dumbest thing that can happen to you is if you are copying working
 	vector<int> shuffled_deck_out = init_deck();					// code and use it for something new, and only change half the variable names
-	assert(shuffled_deck_out == check_deck(shuffled_deck_out));
-	shuffled_deck_out = shuffle(init_deck(), true);					
+	assert(check_deck(shuffled_deck_out));
+	shuffled_deck_out = shuffle(shuffled_deck_out, true);				
 	while(!check_deck(shuffled_deck_in)){
 		shuffled_deck_in = shuffle(shuffled_deck_in, false);
 		++counter_in;
