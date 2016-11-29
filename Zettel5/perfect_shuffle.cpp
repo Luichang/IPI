@@ -57,7 +57,7 @@ int main(){
 	int counter_in = 1;
 	int counter_out = 1;
 	vector<int> shuffled_deck_in = init_deck();
-	assert(check_deck(shuffled_deck_in));		// assert is anoying
+	assert(check_deck(shuffled_deck_in));							// assert is anoying
 	shuffled_deck_in = shuffle(shuffled_deck_in, false);			// the dumbest thing that can happen to you is if you are copying working
 	vector<int> shuffled_deck_out = init_deck();					// code and use it for something new, and only change half the variable names
 	assert(check_deck(shuffled_deck_out));
