@@ -2,6 +2,7 @@
 #include <vector>
 #include <algorithm>
 #include <sstream>
+#include "format_numbers.hpp"
 
 using namespace std;
 
@@ -72,11 +73,15 @@ vector<string> format_numbers(vector<double> v){
 
 int main(){
 	vector<double> madeOfDoubeles = {12485.3, 19.5, 2.28754, 4.8654};
-	vector<int> madeOfInts = vec_rounded(madeOfDoubeles);
-	for(auto i : madeOfInts){
+	vector<int> madeOfInts = vector_to_int(madeOfDoubeles);
+	/*for(auto i : madeOfInts){
 		cout << double_to_string(i) << endl;
-	}
-	vector<string> madeOfStrings = format_numbers(madeOfDoubeles);
+	}*/
+	vector<double> madeOfNewDoubles = vec_rounded(madeOfDoubeles);
+	/*for(auto i : madeOfNewDoubles){
+		cout << double_to_string(i) << endl;
+	}*/
+	vector<string> madeOfStrings = format_numbers(numbers);
 	for(auto i : madeOfStrings){
 		cout << i << endl;
 	}
