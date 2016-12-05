@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-#include <string>
 #include <algorithm>
 #include <sstream>
 #include "format_numbers.hpp"
@@ -11,8 +10,15 @@ template<typename T>
 string toString(const T& value)
 {
     std::ostringstream stream;
-    stream << fixed << value;
+    stream << fixed << value;					// added the fixed part here so I don't get values like 1.xxxe6
     return stream.str();
+}
+
+template<typename T>
+void printVector(vector<T> printer){			// seems like I am getting the hang of template functions
+	for(auto i:printer){
+		cout << i << endl;
+	}
 }
 
 int addPointFive(double in){					// simple lambda function to be reused at a later point
@@ -23,8 +29,8 @@ int addPointFive(double in){					// simple lambda function to be reused at a lat
 
 vector<int> vector_to_int(vector<double> v){
 	vector<int> newIntVector(v.size());
-	transform(v.begin(), v.end(), newIntVector.begin(), addPointFive);
-	return newIntVector;
+	transform(v.begin(), v.end(), newIntVector.begin(), addPointFive);		// not using inbound lambda because I want to reuse the
+	return newIntVector;													// exact function at a later date
 }
 
 vector<double> vec_rounded(vector<double> v){
@@ -56,8 +62,8 @@ string addApostophe(string s){
 
 string double_to_string(double x){
 	x = x * 100;
-	x = addPointFive(x);
-	x = x / 100;
+	x = addPointFive(x);					// probably some way ti reuse the vec_rounded function, but don't want to think of a way to pass the vector...
+	x = x / 100;							// might be as simmple as just passing the vector... might also be in the assignment that you need to pass a double
 	string s = toString(x);
 	s = addZeros(s);
 	s = addApostophe(s);
@@ -76,15 +82,9 @@ vector<string> format_numbers(vector<double> v){
 int main(){
 	/*vector<double> madeOfDoubeles = {12485.3, 19.5, 2.28754, 4.8654};
 	vector<int> madeOfInts = vector_to_int(madeOfDoubeles);
-	for(auto i : madeOfInts){												// comenting out the previous assignment parts and just leaving the final part
-		cout << double_to_string(i) << endl;
-	}
+	printVector(madeOfInts);												// comenting out the previous assignment parts and just leaving the final part
 	vector<double> madeOfNewDoubles = vec_rounded(madeOfDoubeles);
-	for(auto i : madeOfNewDoubles){
-		cout << double_to_string(i) << endl;
-	}*/
+	printVector(madeOfNewDoubles);*/
 	vector<string> madeOfStrings = format_numbers(numbers);
-	for(auto i : madeOfStrings){
-		cout << i << endl;
-	}
+	printVector(madeOfStrings);
 }
