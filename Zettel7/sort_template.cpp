@@ -114,15 +114,15 @@ int main(){
 	std::vector<char> charactersFull = {'a', 'g', 'f', 't'};
 	std::vector<double> doublesEmpty = {};
 	std::vector<double> doublesFull = {1.53, 54.645, 464.43};
-	std::vector<double> test(10);
-	int j = test.size();
-	for(auto i = 0; i < test.size(); ++i){
-		test[i] = j;
+	std::vector<double> variableVector(10);
+	int j = variableVector.size();
+	for(auto i = 0; i < variableVector.size(); ++i){
+		variableVector[i] = j;
 		--j;
 	}
 	assignment1(charactersEmpty);
 	assignment1(charactersFull);
 	assignment1(doublesEmpty);
 	assignment1(doublesFull);
-	insertion_sort(test, [](auto i, auto j){return i < j;});
+	insertion_sort(variableVector, [](auto i, auto j){return i < j;});
 }
