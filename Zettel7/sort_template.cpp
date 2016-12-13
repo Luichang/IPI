@@ -1,3 +1,4 @@
+#include <random>
 #include <iostream>											// using -std=c++14 for the lambda functions
 #include <vector>
 #include <algorithm>
@@ -48,13 +49,17 @@ bool check_sorted(Iterator begin, Iterator end, LessThanFunctor less_than){
 
 template <typename ElementType, typename LessThanFunctor>
 void insertion_sort(std::vector<ElementType> &v, LessThanFunctor less_than){
+	int test = 0;
 	for(int k = 1; k < v.size(); ++k){
+		//std::cout << std::endl;
 		ElementType current = v[k];
 		int j = k;
 		while(j > 0){
+			//std::cout << ++test << std::endl;
 			if(less_than(current, v[j - 1])){							// using the code to sort provided, not much explanation needed
 				v[j] = v[j - 1];
 			}else{
+				//std::cout << "Whimp" << std::endl;
 				break;
 			}
 			--j;
@@ -109,8 +114,15 @@ int main(){
 	std::vector<char> charactersFull = {'a', 'g', 'f', 't'};
 	std::vector<double> doublesEmpty = {};
 	std::vector<double> doublesFull = {1.53, 54.645, 464.43};
+	std::vector<double> test(10);
+	int j = test.size();
+	for(auto i = 0; i < test.size(); ++i){
+		test[i] = j;
+		--j;
+	}
 	assignment1(charactersEmpty);
 	assignment1(charactersFull);
 	assignment1(doublesEmpty);
 	assignment1(doublesFull);
+	insertion_sort(test, [](auto i, auto j){return i < j;});
 }
