@@ -1,3 +1,4 @@
+#include <cassert>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -45,90 +46,41 @@ std::vector<int> shuffle(std::vector<int> cards, bool out) {
         }
     }
     return new_deck;
-}
+}                                                               // taking the functions from the previous assignment
 
 std::vector<int> shuffle_top_to(std::vector<int> deck, uint8_t k) {
-    //std::vector<int> outVector;
-    uint8_t kCopy = k;
-    auto start = 0;
-    while (!(kCopy & 1)) {
-        kCopy >>= 1;
-        std::cout << ++start << std::endl;
-    }
-    while (kCopy != 0)
-    {
-        if (kCopy & 1)
-        {
-            deck = shuffle(deck, false);
-        }
-        else {
-            deck = shuffle(deck, true);
-        }
-        kCopy >>= 1;
-    }
-    while (start != 0) {
-        deck = shuffle(deck, true);
-        --start;
-    }
-    //bool hadFirstZero = !(kCopy & 1);
-    //std::cout << hadFirstZero << std::endl;
-    /*for (int t = 0; t < 8; ++t) {
-        if (kCopy & 1) {
-            deck = shuffle(deck, false);
-        }
-        else {
-            deck = shuffle(deck, true);
-        }
-        kCopy >>= 1;
-    }
-    while (k != 0)
-    {
-        if (k & 1)
-        {
-            deck = shuffle(deck, false);
-        }
-        else {
-            deck = shuffle(deck, true);
-        }
-        k >>= 1;
-    }*/
-    /*if (hadFirstZero) {
-        deck = shuffle(deck, true);
-        hadFirstZero = false;
-    }*/
-    std::cout << std::endl;
+    for (int i = 7; i > 0; --i) {           // iterating through the number 7 times. The reason for that is
+        k = k << 1;                         // the number can only have 8 bits. The first few bits will never
+        deck = shuffle(deck, !(k >= 128));  // have a 1 seeing as the highest number can only be 52 and 2 to the power
+    }                                       // of 8 = 128
+                                            // made the bool equal to if k is greater-equal than 128
     return deck;
 }
 
-inline void wait_on_enter()
-{
+inline void wait_on_enter()                 // started using visual studio which terminates the terminal after the program
+{                                           // finished running
     std::string dummy;
     std::cout << "Enter to continue..." << std::endl;
     std::getline(std::cin, dummy);
 }
 
 int main() {
-    std::vector<int> deck1 = init_deck();
-    
     std::vector<int> deck = init_deck();
-    std::vector<int> counting(deck1.size());
-    for (int i = 0; i < counting.size(); ++i) {
-        counting[i] = i;
-    }
-    std::vector<int> counter;
-    for (int i = 1; i < deck1.size(); ++i) {
-        std::vector<int> deck2 = init_deck(); 
+    std::vector<int> counting = init_deck();     // creating a vector for a nicer output, works for smaller card decks
+    //std::vector<int> counter;
+    for (int i = 0; i < deck.size(); ++i) {     // iterating through every possibility from 0 to the max deck size to 
+        std::vector<int> deck2 = init_deck();   // ensure that the program works for every possibility
         deck2 = shuffle_top_to(deck2, i);
-        if (deck2[i] != 0) {
-            counter.push_back(i);
-        }
+        /*if (deck2[i] != 0) {
+            counter.push_back(i);               // prefer this method of testing for which numbers it wont work
+        }*/
+        assert(deck2[i] == 0);
     }
-
-    printVectors(counter);
+    //printVectors(counter);                    // this would tell you for which not work
     
-    /*deck1 = shuffle_top_to(deck1, 5);
+    deck = shuffle_top_to(deck, 2);             // manual check
     printVectors(counting);
-    printVectors(deck1);*/
+    printVectors(deck);
     
     wait_on_enter();
 }
