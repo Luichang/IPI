@@ -124,7 +124,7 @@ public:
     // Implementieren Sie eine Funktion, die genau dann 'true'
     // zurueckgibt, wenn das Rechteck nicht ungueltig ist.
     bool is_valid() const { // this funciton checks to see if the hight and width are positive
-        return (((*this).height() > 0) && ((*this).width() > 0) );
+        return (((*this).height() >= 0) && ((*this).width() >= 0) );
     }
 
     // Implementieren Sie eine Funktion, die die Flaeche des
@@ -134,12 +134,12 @@ public:
         if ((*this).is_valid()) {
             return (*this).height() * (*this).width();
         }
-        else if ((*this).height() == 0 || (*this).width() == 0){ // in the case that we just received a lign the return was
-            return 0.0;                                          // supposed to be 0
-        }
-        else {                                                   // in the case we had negative values the result was to be
+        else if ((*this).height() < 0 || (*this).width() < 0){   // in the case we had negative values the result was to be
             return -1.0;                                         // -1
         }
+        else {                                                   // in the case that we just received a lign the return was
+            return 0.0;                                          // supposed to be 0
+        }                 
     }
 
     // Implementieren Sie eine Funktion, die ein neues Rechteck
@@ -159,8 +159,12 @@ public:
     // ist. Wenn (*this) ungueltig ist, soll 'false' zurueckgegeben
     // werden.
     bool contains(Point const & p) const { // point
-        if ((*this).x0() <= p.x() || (*this).y0() <= p.y() || (*this).x1() >= p.x() || (*this).y1() >= p.y())
+        if ((*this).x0() <= p.x() &&
+            (*this).y0() <= p.y() &&
+            (*this).x1() >= p.x() &&
+            (*this).y1() >= p.y()) {
             return true;               // if the given point has an x greater x than the left point and smaller x than the 
+        }
         return false;                  // right + if the point has a y greater than the bottom point of the rectangle and
     }                                  // smaller y than the top the return will be true
 
@@ -198,31 +202,36 @@ Rectangle rectangle_union(Rectangle const & r1, Rectangle const & r2) {
 // der Rechtecke r1 und r2 zerueckgibt, oder ein beliebiges
 // ungueltiges Rechteck, falls r1 und r2 nicht ueberlappen.
 Rectangle rectangle_intersection(Rectangle const & r1, Rectangle const & r2) { 
-    if (r1.contains(r2.p0()) || r1.contains(r2.p1()) || r2.contains(r1.p0()) || r2.contains(r1.p1())) {
-        return Rectangle(Point(std::min(r1.x0(), r2.x0()), std::max(r1.y0(), r2.y0())), 
-            Point(std::max(r1.x1(), r2.x1()), std::min(r1.y1(), r2.y1())));;
+    Point graterp0(std::min(r1.x0(), r2.x0()), std::max(r1.y0(), r2.y0()));
+    Point lesserp1(std::max(r1.x1(), r2.x1()), std::min(r1.y1(), r2.y1()));
+    if (r1.contains(graterp0) ||     // if either rectangle contains any points of the other rectangle
+        r1.contains(lesserp1) || 
+        r2.contains(graterp0) || 
+        r2.contains(lesserp1)) {
+        return Rectangle(graterp0, lesserp1);
     }
     return Rectangle(Point(-1, -1)); // creating a dummy rectangle for the cases where there is no intersection;
 }
 
 // Implementieren Sie Tests fuer die Rectangle-Klasse.
 void testRectangle() {
-    Rectangle r0(Point(3.0, 5.0));
+    /*Rectangle r0(Point(3.0, 5.0));
 
     assert(r0.p0() == Point(0.0, 0.0));
     assert(r0.p1() == Point(3.0, 5.0));
 
     Rectangle r(Point(1.0, 2.0), Point(3.0, 5.0));
 
-    assert(r.x0() == 1.0);
+    assert(r.x0() == 1.0);*/
     // Fuegen Sie weitere Tests entsprechend der Aufgabe hinzu
-
+    
     for (double i = 1; i < 7; i++) {           // creating a for loop for all the tests...
-        Rectangle iterated1(Point(i * 2, i * 3));
-        Rectangle iterated2(Point(i * 4, i * 2), Point(i + 1, i + 2));
+        Rectangle iterated1(Point(i * 2, i * 9));
+        Rectangle iterated2(Point(i + 1, i + 2), Point(i * 4, i * 15));
         Rectangle iterated3 = rectangle_intersection(iterated1, iterated2);
         Rectangle iterated4 = rectangle_union(iterated1, iterated2);
-        assert(iterated3.contains(Point(std::max(iterated1.x0(), iterated2.x0()), std::min(iterated1.y0(), iterated2.y0()))));
+        Point p(iterated3.x0() + 1, iterated3.y1() - 1);
+        assert(iterated3.contains(p));
 
         assert(iterated4.contains(iterated1) && iterated4.contains(iterated2));
         Point moving(i * 3, i + 2);
@@ -230,21 +239,21 @@ void testRectangle() {
         assert(iterated5.p0() == iterated4.p0().translate(moving) && iterated5.p1() == iterated4.p1().translate(moving));
 
         assert(iterated1.p0() == Point(0.0, 0.0));
-        assert(iterated1.p1() == Point(i * 2, i * 3));
+        assert(iterated1.p1() == Point(i * 2, i * 9));
         assert(to_string(iterated1) == "[" + std::to_string(iterated1.x0())
             + ":" + std::to_string(iterated1.x1())
             + ", " + std::to_string(iterated1.y0())
             + ":" + std::to_string(iterated1.y1())
             + "]");
-        assert(iterated1.height() == i * 3);
+        assert(iterated1.height() == i * 9);
         assert(iterated1.width() == i * 2);
-        assert(iterated1.area() == (i * 3) * (i * 2));
+        assert(iterated1.area() == (i * 9) * (i * 2));
 
-        assert(iterated2.p0() == Point(i * 4, i * 2));
-        assert(iterated2.p1() == Point(i + 1, i + 2));
+        assert(iterated2.p1() == Point(i * 4, i * 15));
+        assert(iterated2.p0() == Point(i + 1, i + 2));
         iterated2 = iterated2.transpose();
-        assert(iterated2.p0() == Point(i * 2, i * 4));
-        assert(iterated2.p1() == Point(i + 2, i + 1));
+        assert(iterated2.p1() == Point(i * 15, i * 4));
+        assert(iterated2.p0() == Point(i + 2, i + 1));
 
     }
     Rectangle twoTrue(Point (5, 3), Point(9, 6));
