@@ -48,21 +48,21 @@ class Point
     // erzeuge neuen Punkt, desssen x- und y-Koordinate
     // vertauscht sind
     Point transpose() const {
-        Point res((*this).y(), (*this).x());
+        Point res((*this).y(), (*this).x()); // setting the x value to the original y and the y value to the original x
         return res;
     }
 
     // erzeuge neuen Punkt, der um den Vektor v verschoben ist
     Point translate(Point const & v) const {
-        Point res((*this).x() + v.x(), (*this).y() + v.y());
-        return res;
+        Point res((*this).x() + v.x(), (*this).y() + v.y()); // adding the x of the received point to the original point
+        return res;                                          // same with the y
     }
 };
 
 // wandle den Punkt in einen String der Form "[x, y]"
 std::string to_string(Point const & p) {
     return "[" + std::to_string(p.x()) 
-        + ", " + std::to_string(p.y()) 
+        + ", " + std::to_string(p.y())      // using a basic display return for the string to follow the form of [x, y]
         + "]";
 }
 
@@ -134,31 +134,25 @@ public:
         if ((*this).is_valid()) {
             return (*this).height() * (*this).width();
         }
-        else if ((*this).height() == 0 || (*this).width() == 0){
-            return 0.0;
+        else if ((*this).height() == 0 || (*this).width() == 0){ // in the case that we just received a lign the return was
+            return 0.0;                                          // supposed to be 0
         }
-        else {
-            return -1.0;
+        else {                                                   // in the case we had negative values the result was to be
+            return -1.0;                                         // -1
         }
     }
 
     // Implementieren Sie eine Funktion, die ein neues Rechteck
     // zurueckgibt, bei dem die x- und y-Koordinaten vertauscht sind.
     Rectangle transpose() const {
-        Point np0((*this).p0_.y(), (*this).p0_.x());
-        Point np1((*this).p1_.y(), (*this).p1_.x());
-        Rectangle rec(np0, np1);
-        return rec;
-    }
+        return Rectangle(p0_.transpose(), p1_.transpose());   // switching around both the top right coordinates with 
+    }                                                         // eachother and bottom left
 
     // Implementieren Sie eine Funktion, die ein neues Rechteck
     // zurueckgibt, das um den Vektor v verschoben ist.
     Rectangle translate(Point const & v) const {
-        Point np0((*this).p0_.translate(v));
-        Point np1((*this).p1_.translate(v));
-        Rectangle rec(np0, np1);
-        return rec;
-    }
+        return Rectangle(Point((*this).p0_.translate(v)), Point((*this).p1_.translate(v))); // using the Point functions
+    }                                                                                       // to move the rectangle around
 
     // Implementieren Sie eine Funktion, die genau dann 'true'
     // zurueckgibt, wenn der Punkt p im Rechteck (*this) enthalten
@@ -166,9 +160,9 @@ public:
     // werden.
     bool contains(Point const & p) const { // point
         if ((*this).x0() <= p.x() || (*this).y0() <= p.y() || (*this).x1() >= p.x() || (*this).y1() >= p.y())
-            return true;
-        return false;
-    }
+            return true;               // if the given point has an x greater x than the left point and smaller x than the 
+        return false;                  // right + if the point has a y greater than the bottom point of the rectangle and
+    }                                  // smaller y than the top the return will be true
 
     // Implementieren Sie eine Funktion, die genau dann 'true'
     // zurueckgibt, wenn das Rechteck r im Rechteck (*this) enthalten
@@ -176,8 +170,8 @@ public:
     // werden.
     bool contains(Rectangle const & r) const { // rectangle
         if ((*this).x0() <= r.x0() && (*this).y0() <= r.y0() && (*this).x1() >= r.x1() && (*this).y1() >= r.y1())
-            return true;
-        return false;
+            return true;             // same as with the point only that each corner will be checked from both to ensure
+        return false;                // all of the second rectangle is in the first
     }
 };
 
@@ -196,24 +190,19 @@ std::string to_string(Rectangle const & r) {
 // Implementieren Sie eine Funktion, die das kleinste Rechteck
 // zurueckgibt, das r1 und r2 enthaelt.
 Rectangle rectangle_union(Rectangle const & r1, Rectangle const & r2) {  
-    Point np0(std::min(r1.x0(), r2.x0()), std::min(r1.y0(), r2.y0()));   
-    Point np1(std::max(r1.x1(), r2.x1()), std::max(r1.y1(), r2.y1()));   
-    Rectangle nr(np0, np1);
-    return nr;
-}
+    return Rectangle(Point(std::min(r1.x0(), r2.x0()), std::min(r1.y0(), r2.y0())), // taking the smallest botom left
+        Point(std::max(r1.x1(), r2.x1()), std::max(r1.y1(), r2.y1())));             // and largest top right points and
+}                                                                                   // creating a new Rectangle
 
 // Implementieren Sie eine Funktion, die den Durchschnitt
 // der Rechtecke r1 und r2 zerueckgibt, oder ein beliebiges
 // ungueltiges Rechteck, falls r1 und r2 nicht ueberlappen.
 Rectangle rectangle_intersection(Rectangle const & r1, Rectangle const & r2) { 
     if (r1.contains(r2.p0()) || r1.contains(r2.p1()) || r2.contains(r1.p0()) || r2.contains(r1.p1())) {
-        Point np0(std::min(r1.x0(), r2.x0()), std::max(r1.y0(), r2.y0()));     
-        Point np1(std::max(r1.x1(), r2.x1()), std::min(r1.y1(), r2.y1()));     
-        Rectangle nr(np0, np1);                                                
-        return nr;
+        return Rectangle(Point(std::min(r1.x0(), r2.x0()), std::max(r1.y0(), r2.y0())), 
+            Point(std::max(r1.x1(), r2.x1()), std::min(r1.y1(), r2.y1())));;
     }
-    Rectangle badRectangle(Point(-1, -1)); // creating a dummy rectangle for the cases where there is no intersection
-    return badRectangle;
+    return Rectangle(Point(-1, -1)); // creating a dummy rectangle for the cases where there is no intersection;
 }
 
 // Implementieren Sie Tests fuer die Rectangle-Klasse.
