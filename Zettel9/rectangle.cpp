@@ -8,9 +8,8 @@
 // die 2-dimensionale Punkt-Klasse aus der Vorlesung
 class Point
 {
-    // die Koordinaten des Punktes
-    double x_;
-    double y_;
+    double x_; // die Koordinaten des Punktes x
+    double y_; // die Koordinaten des Punktes y
 
   public:
 
@@ -26,12 +25,12 @@ class Point
         , y_(y) {
     }
 
-    // Getter-Funktionen fuer die Koordinaten
-    double x() const {
+    // Getter-Funktionen fuer die x Koordinate
+    double x() const { 
         return (*this).x_;
     }
-
-    double y() const {
+    // Getter-Funktionen fuer die y Koordinate
+    double y() const { 
         return (*this).y_;
     }
 
@@ -54,8 +53,8 @@ class Point
 
     // erzeuge neuen Punkt, der um den Vektor v verschoben ist
     Point translate(Point const & v) const {
-        Point res((*this).x() + v.x(), (*this).y() + v.y()); // adding the x of the received point to the original point
-        return res;                                          // same with the y
+        Point res((*this).x() + v.x(), (*this).y() + v.y()); // adding the x of the received point to the original point same with the y
+        return res;                                          
     }
 };
 
@@ -75,112 +74,136 @@ class Rectangle {
 public:
 
     // Implementieren Sie die folgenden Konstruktoren.
-    Rectangle() { // this function does not need to be edited, seeing as every point in initialized in 0.0, 0.0
+
+    // this function does not need to be edited, seeing as every point in initialized in 0.0, 0.0
+    Rectangle() { 
     }
 
-    Rectangle(Point const & p1) { // we are translating the point to the inserted point to have the proper size of rectangle
+    // we are translating the point to the inserted point to have the proper size of rectangle
+    Rectangle(Point const & p1) { 
         p1_ = p1_.translate(p1);
     }
 
-    Rectangle(Point const & p0, Point const & p1) { // in this case we transpose both corners
+    // in this case we transpose both corners
+    Rectangle(Point const & p0, Point const & p1) { 
         p0_ = p0_.translate(p0);
         p1_ = p1_.translate(p1);
     }
 
-    // read-only Getter-Funktionen fuer die Member-Variablen
+    // read-only Getter-Funktionen fuer die Member-Variablen (p0)
     Point const & p0() const {
         return (*this).p0_;
     }
-
+    // read-only Getter-Funktionen fuer die Member-Variablen (p1)
     Point const & p1() const {
         return (*this).p1_;
     }
 
     // Implementieren Sie die folgenden Getter-Funktionen.
-    double x0() const { // linke x-Koordinate
+
+    // linke x-Koordinate
+    double x0() const { 
         return (*this).p0_.x();
     }
 
-    double x1() const { // rechte x-Koordinate
+    // rechte x-Koordinate
+    double x1() const { 
         return (*this).p1_.x();
     }
 
-    double y0() const { // untere y-Koordinate
+    // untere y-Koordinate
+    double y0() const { 
         return (*this).p0_.y();
     }
 
-    double y1() const { // obere  y-Koordinate
+    // obere  y-Koordinate
+    double y1() const { 
         return (*this).p1_.y();
     }
 
-    double width() const { // Breite
+    // Breite
+    double width() const { 
         return (*this).x1() - (*this).x0();
     }
 
-    double height() const { // Hoehe
+    // Hoehe
+    double height() const { 
         return (*this).y1() - (*this).y0();
     }
 
     // Implementieren Sie eine Funktion, die genau dann 'true'
     // zurueckgibt, wenn das Rechteck nicht ungueltig ist.
-    bool is_valid() const { // this funciton checks to see if the hight and width are positive
+
+    // this funciton checks to see if the hight and width are positive
+    bool is_valid() const { 
         return (((*this).height() >= 0) && ((*this).width() >= 0) );
     }
 
     // Implementieren Sie eine Funktion, die die Flaeche des
     // Rechtecks zurueckgibt, bzw. -1.0, wenn das Rechteck
     // ungueltig ist.
-    double area() const {  // returning height * width
+
+    // height * width
+    double area() const {  
         if ((*this).is_valid()) {
             return (*this).height() * (*this).width();
         }
-        else if ((*this).height() < 0 || (*this).width() < 0){   // in the case we had negative values the result was to be
-            return -1.0;                                         // -1
-        }
-        else {                                                   // in the case that we just received a lign the return was
-            return 0.0;                                          // supposed to be 0
-        }                 
+        else /*if ((*this).height() < 0 || (*this).width() < 0)*/{   // in the case we had negative values the result was to be -1
+            return -1.0;                                         
+        }              
     }
 
     // Implementieren Sie eine Funktion, die ein neues Rechteck
     // zurueckgibt, bei dem die x- und y-Koordinaten vertauscht sind.
+
+    // switching around both the top right coordinates with eachother and bottom left
     Rectangle transpose() const {
-        return Rectangle(p0_.transpose(), p1_.transpose());   // switching around both the top right coordinates with 
-    }                                                         // eachother and bottom left
+        return Rectangle(p0_.transpose(), p1_.transpose());   
+    }                                                         
 
     // Implementieren Sie eine Funktion, die ein neues Rechteck
     // zurueckgibt, das um den Vektor v verschoben ist.
+
+    // using the Point functions to move the rectangle around
     Rectangle translate(Point const & v) const {
-        return Rectangle(Point((*this).p0_.translate(v)), Point((*this).p1_.translate(v))); // using the Point functions
-    }                                                                                       // to move the rectangle around
+        return Rectangle(Point((*this).p0_.translate(v)), Point((*this).p1_.translate(v))); 
+    }                                                                                       
 
     // Implementieren Sie eine Funktion, die genau dann 'true'
     // zurueckgibt, wenn der Punkt p im Rechteck (*this) enthalten
     // ist. Wenn (*this) ungueltig ist, soll 'false' zurueckgegeben
     // werden.
-    bool contains(Point const & p) const { // point
-        if ((*this).x0() <= p.x() &&
-            (*this).y0() <= p.y() &&
-            (*this).x1() >= p.x() &&
+
+    // check if Rectangle contains a specific point
+    bool contains(Point const & p) const { 
+        if ((*this).x0() <= p.x() &&   // if the given point has an x greater x than the left point and 
+            (*this).y0() <= p.y() &&   // smaller x than the right + if the point has a y greater than 
+            (*this).x1() >= p.x() &&   // the bottom point of the rectangle and smaller y than the top the return will be true
             (*this).y1() >= p.y()) {
-            return true;               // if the given point has an x greater x than the left point and smaller x than the 
+            return true;               
         }
-        return false;                  // right + if the point has a y greater than the bottom point of the rectangle and
-    }                                  // smaller y than the top the return will be true
+        return false;                  
+    }                                  
 
     // Implementieren Sie eine Funktion, die genau dann 'true'
     // zurueckgibt, wenn das Rechteck r im Rechteck (*this) enthalten
     // ist. Wenn (*this) oder r ungueltig sind, soll 'false' zurueckgegeben
     // werden.
-    bool contains(Rectangle const & r) const { // rectangle
-        if ((*this).x0() <= r.x0() && (*this).y0() <= r.y0() && (*this).x1() >= r.x1() && (*this).y1() >= r.y1())
-            return true;             // same as with the point only that each corner will be checked from both to ensure
-        return false;                // all of the second rectangle is in the first
+
+    // check if Rectangle contains a specific rectangle
+    bool contains(Rectangle const & r) const {
+        if ((*this).is_valid() && r.is_valid()) {
+            if ((*this).x0() <= r.x0() && (*this).y0() <= r.y0() && (*this).x1() >= r.x1() && (*this).y1() >= r.y1())
+                return true;             // same as with the point only that each corner will be checked from both to ensure all of the second rectangle is in the first
+        }
+        return false;
     }
 };
 
 // Implementieren Sie eine Funktion, die das Rechteck
 // in einen String der Form "[x0:x1, y0:y1]" umwandelt.
+
+// convert each point into a string to be displayed
 std::string to_string(Rectangle const & r) {
     std::string out;                         // getting all 4 coordinates and displaying them the way the assignment wants
     out = "[" + std::to_string(r.x0())       
@@ -193,39 +216,39 @@ std::string to_string(Rectangle const & r) {
 
 // Implementieren Sie eine Funktion, die das kleinste Rechteck
 // zurueckgibt, das r1 und r2 enthaelt.
+
+// create the smallest rectangle combination for the given rectangles
 Rectangle rectangle_union(Rectangle const & r1, Rectangle const & r2) {  
-    return Rectangle(Point(std::min(r1.x0(), r2.x0()), std::min(r1.y0(), r2.y0())), // taking the smallest botom left
-        Point(std::max(r1.x1(), r2.x1()), std::max(r1.y1(), r2.y1())));             // and largest top right points and
-}                                                                                   // creating a new Rectangle
+    return Rectangle(Point(std::min(r1.x0(), r2.x0()), std::min(r1.y0(), r2.y0())), // taking the smallest botom leftand largest top right points and creating a new Rectangle
+        Point(std::max(r1.x1(), r2.x1()), std::max(r1.y1(), r2.y1())));             
+}                                                                                   
 
 // Implementieren Sie eine Funktion, die den Durchschnitt
 // der Rechtecke r1 und r2 zerueckgibt, oder ein beliebiges
 // ungueltiges Rechteck, falls r1 und r2 nicht ueberlappen.
+
+// create creating a rectangle within the given rectangles
 Rectangle rectangle_intersection(Rectangle const & r1, Rectangle const & r2) { 
-    Point graterp0(std::min(r1.x0(), r2.x0()), std::max(r1.y0(), r2.y0()));
-    Point lesserp1(std::max(r1.x1(), r2.x1()), std::min(r1.y1(), r2.y1()));
-    if (r1.contains(graterp0) ||     // if either rectangle contains any points of the other rectangle
-        r1.contains(lesserp1) || 
-        r2.contains(graterp0) || 
-        r2.contains(lesserp1)) {
-        return Rectangle(graterp0, lesserp1);
+    Rectangle getRect(Point(std::max(r1.x0(), r2.x0()), std::max(r1.y0(), r2.y0())), Point(std::min(r1.x1(), r2.x1()), std::min(r1.y1(), r2.y1()))); // creating the point with the larger x and the larger y creating the point with the smaller x and the smaller y
+    if (r1.contains(getRect) && r2.contains(getRect)) {  // if either rectangle contains any points of the other rectangle
+        return getRect;
     }
     return Rectangle(Point(-1, -1)); // creating a dummy rectangle for the cases where there is no intersection;
 }
 
 // Implementieren Sie Tests fuer die Rectangle-Klasse.
 void testRectangle() {
-    /*Rectangle r0(Point(3.0, 5.0));
+    Rectangle r0(Point(3.0, 5.0));
 
     assert(r0.p0() == Point(0.0, 0.0));
     assert(r0.p1() == Point(3.0, 5.0));
 
     Rectangle r(Point(1.0, 2.0), Point(3.0, 5.0));
 
-    assert(r.x0() == 1.0);*/
+    assert(r.x0() == 1.0);
     // Fuegen Sie weitere Tests entsprechend der Aufgabe hinzu
     
-    for (double i = 1; i < 7; i++) {           // creating a for loop for all the tests...
+    for (double i = 2; i < 8; i++) {           // creating a for loop for all the tests...
         Rectangle iterated1(Point(i * 2, i * 9));
         Rectangle iterated2(Point(i + 1, i + 2), Point(i * 4, i * 15));
         Rectangle iterated3 = rectangle_intersection(iterated1, iterated2);
@@ -268,8 +291,8 @@ void testRectangle() {
     std::cout << "alle Rectangle-Tests erfolgreich\n";
 }
 
-inline void wait_on_enter() {  // started using visual studio which terminates the terminal after the program
-    std::string dummy;         // finished running
+inline void wait_on_enter() {  // started using visual studio which terminates the terminal after the program finished running
+    std::string dummy;         
     std::cout << "Enter to continue..." << std::endl;
     std::getline(std::cin, dummy);
 }
