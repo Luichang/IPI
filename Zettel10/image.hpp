@@ -28,8 +28,10 @@ public:
     Image(unsigned int width, unsigned int height)
         : width_(width)
         , height_(height) {
-        for (unsigned int i = 0; i < width * height; ++i) {
-            data_.push_back(0);
+        for (size_t i = 0; i < height; i++) {
+            for (size_t j = 0; j < width; j++) {
+                data_.push_back(0);
+            }
         }
     }
 
@@ -52,13 +54,13 @@ public:
     void resize(unsigned int new_width, unsigned int new_height) {
         height_ = new_height;
         width_ = new_width;
-        for (int w = 0; w < (*this).width(); w++) {
-            for (int h = 0; h < (*this).height(); h++) {
-                if (h >(*this).height()) {
-                    data_.push_back(0);
+        for (int w = (*this).width() - 1; w > 0; --w) {
+            for (int h = (*this).height() - 1; h < 0; --h) {
+                if (h > (*this).height()) {
+                    data_.insert(data_.begin() + h * (*this).width() + w, 0);
                 }
                 else if (w > (*this).width()) {
-                    data_.push_back(0);
+                    data_.insert(data_.begin() + h * (*this).width() + w, 0);
                 }
             }
         }
@@ -66,13 +68,13 @@ public:
 
     // lesender Zugriff auf des Pixel an Position (x,y)
     PixelType operator()(int x, int y) const {
-        return data_[y * width_ + x];
+        return data_[x * width_ + y];
     }
 
     // Lese/Schreib-Zugriff auf des Pixel an Position (x,y)
     // x = width y = heigth
     PixelType &operator()(int x, int y) {
-        auto p = data_.begin() + (y * width_ + x);
+        auto p = data_.begin() + (x * width_ + y);
         return *p;
     }
 };
