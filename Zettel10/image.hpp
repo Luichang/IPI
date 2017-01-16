@@ -28,8 +28,8 @@ public:
     Image(unsigned int width, unsigned int height)
         : width_(width)
         , height_(height) {
-        for (size_t i = 0; i < height; i++) {
-            for (size_t j = 0; j < width; j++) {
+        for (size_t i = 0; i < height; ++i) {
+            for (size_t j = 0; j < width; ++j) {
                 data_.push_back(0);
             }
         }
@@ -54,13 +54,13 @@ public:
     void resize(unsigned int new_width, unsigned int new_height) {
         height_ = new_height;
         width_ = new_width;
-        for (int w = (*this).width() - 1; w > 0; --w) {
-            for (int h = (*this).height() - 1; h < 0; --h) {
+        for (int h = new_height - 1; h > 0; --h) {
+            for (int w = new_width - 1; w < 0; --w) {
                 if (h > (*this).height()) {
-                    data_.insert(data_.begin() + h * (*this).width() + w, 0);
+                    data_.insert(data_.begin() + h * new_width + w, 0);
                 }
                 else if (w > (*this).width()) {
-                    data_.insert(data_.begin() + h * (*this).width() + w, 0);
+                    data_.insert(data_.begin() + h * new_width + w, 0);
                 }
             }
         }
@@ -68,13 +68,13 @@ public:
 
     // lesender Zugriff auf des Pixel an Position (x,y)
     PixelType operator()(int x, int y) const {
-        return data_[x * width_ + y];
+        return data_[y * width_ + x];
     }
 
     // Lese/Schreib-Zugriff auf des Pixel an Position (x,y)
-    // x = width y = heigth
+    // x = width y = height
     PixelType &operator()(int x, int y) {
-        auto p = data_.begin() + (x * width_ + y);
+        auto p = data_.begin() + (y * width_ + x);
         return *p;
     }
 };
@@ -110,9 +110,9 @@ bool operator==(Image const & im0, Image const & im1) {
  
 std::string to_string(Image const & im) {
     std::string res;
-    for (int i = 0; i < im.width(); ++i) {
-        for (int j = 0; j < im.height(); ++j) {
-            res += std::to_string(im.operator()(i, j));
+    for (int i = 0; i < im.height(); ++i) {
+        for (int j = 0; j < im.width(); ++j) {
+            res += std::to_string(im.operator()(j, i));
             res += " ";
         }
         res += "\n";
@@ -130,39 +130,37 @@ std::string to_string(Image const & im) {
     // Da das PGM-Format ein Textformat ist, kann man es zum
     // Debuggen auch im Editor oeffnen und ueberpruefen.
 
-void writePGM(Image const & img, std::string const & filename)
-{
+void writePGM(Image const & img, std::string const & filename) {
     // Filestream erzeugen
     std::ofstream pgm(filename, std::ios::binary);
- 
+
     // Fehlermeldung, wenn sich das File nicht oeffnen laesst.
     if (!pgm) {
         throw std::runtime_error("writePGM(): cannot open file '" + filename + "'.");
     }
- 
+
     // Headerinformationen schreiben
     int max_pixelvalue = 255;
     pgm << "P2\n"
         << img.width() << " " << img.height() << "\n"
         << max_pixelvalue << "\n";
- 
+
     // Bilddaten schreiben (verwendet Ihre Funktion 'to_string').
     pgm << to_string(img);
+    std::cout << "Succesfully created the file " << filename << std::endl;
 }
  
     // Gib 'true' zurueck, wenn das File 'filename' das PGM-Format hat.
-bool checkPGM(std::string const & filename)
-{
+bool checkPGM(std::string const & filename) {
     std::ifstream pgm(filename);
     std::string line;
- 
+
     // Teste, ob das File geoeffnet werden kann und
     // mindestens eine Zeile hat.
-    if (!std::getline(pgm, line))
-    {
+    if (!std::getline(pgm, line)) {
         return false;
     }
- 
+
     // Teste, dass die erste Zeile der String "P2" ist.
     return line == "P2";
 }
@@ -176,7 +174,7 @@ Image readPGM(std::string const & filename) {
     if (!checkPGM(filename)) {
         throw std::runtime_error("readPGM(): File '" + filename + "' is not PGM.");
     }
-
+    
     // Filestream erzeugen
     std::ifstream pgm(filename);
     std::string line;
@@ -214,7 +212,7 @@ Image readPGM(std::string const & filename) {
         }
     }
 
-
+    std::cout << "Succesfully read the file " << filename << std::endl;
     return res;
 }
  
