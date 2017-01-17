@@ -28,8 +28,8 @@ public:
     Image(unsigned int width, unsigned int height)
         : width_(width)
         , height_(height) {
-        for (size_t i = 0; i < height; ++i) {
-            for (size_t j = 0; j < width; ++j) {
+        for (size_t h = 0; h < height; ++h) {
+            for (size_t w = 0; w < width; ++w) {
                 data_.push_back(0);
             }
         }
@@ -67,15 +67,19 @@ public:
     }
 
     // lesender Zugriff auf des Pixel an Position (x,y)
+
+    // operator()(int width, int height, bool if the picture needs to be rotated use false)
     PixelType operator()(int x, int y) const {
-        return data_[y * width_ + x];
+            return data_[y * width_ + x];       // using the bool value because I found that the picture would be rotated on it's side if I read both in the same way
     }
 
     // Lese/Schreib-Zugriff auf des Pixel an Position (x,y)
-    // x = width y = height
+
+    // operator()(int width, int height, bool if the picture needs to be rotated use false)
     PixelType &operator()(int x, int y) {
-        auto p = data_.begin() + (y * width_ + x);
-        return *p;
+            auto p = data_.begin() + (y * width_ + x);
+            return *p;
+        
     }
 };
  
@@ -86,9 +90,10 @@ public:
  
 bool operator==(Image const & im0, Image const & im1) {
     if (im0.width() == im1.width() && im0.height() == im1.height()) {
-        for (int i = 0; i < im0.height(); ++i) {
-            for (int j = 0; j < im0.width(); ++j) {
-                if (im0.operator()(i, j) != im1.operator()(i, j)) {
+        for (int h = 0; h < im0.height(); ++h) {
+            for (int w = 0; w < im0.width(); ++w) {
+                if (im0.operator()(w, h) != im1.operator()(w, h)) {
+                    std::cout << w << " " << h << " " << im0.operator()(w, h) << " " << im1.operator()(w, h) << std::endl;
                     return false;
                 }
             }
@@ -110,9 +115,9 @@ bool operator==(Image const & im0, Image const & im1) {
  
 std::string to_string(Image const & im) {
     std::string res;
-    for (int i = 0; i < im.height(); ++i) {
-        for (int j = 0; j < im.width(); ++j) {
-            res += std::to_string(im.operator()(j, i));
+    for (int h = 0; h < im.height(); ++h) {
+        for (int w = 0; w < im.width(); ++w) {
+            res += std::to_string(im.operator()(w, h));
             res += " ";
         }
         res += "\n";
@@ -147,7 +152,7 @@ void writePGM(Image const & img, std::string const & filename) {
 
     // Bilddaten schreiben (verwendet Ihre Funktion 'to_string').
     pgm << to_string(img);
-    std::cout << "Succesfully created the file " << filename << std::endl;
+    std::cout << "Succesfully created/modified " << filename << std::endl;
 }
  
     // Gib 'true' zurueck, wenn das File 'filename' das PGM-Format hat.
@@ -205,14 +210,14 @@ Image readPGM(std::string const & filename) {
     // Pixeldaten in einer zweifach geschachtelten Schleife ueber
     // die Zeilen und Spalten einlesen.
 
-    for (size_t i = 0; i < width; ++i) {
-        for (size_t j = 0; j < height; ++j) {
-            auto p = &res.operator()(i, j);
+    for (int h = 0; h < height; ++h) {
+        for (int w = 0; w < width; ++w) {
+            auto p = &res.operator()(w, h);
             pgm >> *p;
         }
     }
 
-    std::cout << "Succesfully read the file " << filename << std::endl;
+    std::cout << "Succesfully read the file " << filename << " into memory." << std::endl;
     return res;
 }
  
