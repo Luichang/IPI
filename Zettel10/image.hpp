@@ -69,15 +69,15 @@ public:
     // lesender Zugriff auf des Pixel an Position (x,y)
 
     // operator()(int width, int height, bool if the picture needs to be rotated use false)
-    PixelType operator()(int x, int y) const {
-            return data_[y * width_ + x];       // using the bool value because I found that the picture would be rotated on it's side if I read both in the same way
+    PixelType operator()(int w, int h) const {
+            return data_[h * width_ + w];       // using the bool value because I found that the picture would be rotated on it's side if I read both in the same way
     }
 
     // Lese/Schreib-Zugriff auf des Pixel an Position (x,y)
 
     // operator()(int width, int height, bool if the picture needs to be rotated use false)
-    PixelType &operator()(int x, int y) {
-            auto p = data_.begin() + (y * width_ + x);
+    PixelType &operator()(int w, int h) {
+            auto p = data_.begin() + (h * width_ + w);
             return *p;
         
     }
@@ -93,7 +93,6 @@ bool operator==(Image const & im0, Image const & im1) {
         for (int h = 0; h < im0.height(); ++h) {
             for (int w = 0; w < im0.width(); ++w) {
                 if (im0.operator()(w, h) != im1.operator()(w, h)) {
-                    std::cout << w << " " << h << " " << im0.operator()(w, h) << " " << im1.operator()(w, h) << std::endl;
                     return false;
                 }
             }

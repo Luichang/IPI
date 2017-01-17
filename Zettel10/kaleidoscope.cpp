@@ -31,7 +31,7 @@ Image mirror_x(Image const &image) {
 Image mirror_y(Image const &image) {
     int imageHeight = image.height();
     int imageWidth = image.width();
-    int mirrorHeight = image.height() * 2;
+    int mirrorHeight = imageHeight * 2;
     Image mirrorImage(imageWidth, mirrorHeight);
     for (int height = 0; height < mirrorHeight; ++height) {
         for (int width = 0; width < imageWidth; ++width) {
