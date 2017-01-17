@@ -6,9 +6,9 @@ Image checkerBoard(Image const &im) {
     Image img(im.width(), im.height());
     for (int h = 0; h < img.height(); h++) {
         for (int w = 0; w < img.width(); w++) {
-            if (h % 2 == 0) {
+            if (h % 2 == 0) {                       // by having it do something different every second pixelheight it ensures that the checkerboard pattern runns down the columns
                 if (w % 2 == 0) {
-                    auto p = &img.operator()(w, h); //  by having the 2 if statements it will go for every second pixel area
+                    auto p = &img.operator()(w, h); //  by having it check every second pixelwidth it ensures that the checkerboard pattern runns accross the rows
                     *p = 0;
                 }
                 else {
