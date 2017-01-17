@@ -8,7 +8,7 @@ Image checkerBoard(Image const &im) {
         for (int w = 0; w < img.width(); w++) {
             if (h % 2 == 0) {
                 if (w % 2 == 0) {
-                    auto p = &img.operator()(w, h);
+                    auto p = &img.operator()(w, h); //  by having the 2 if statements it will go for every second pixel area
                     *p = 0;
                 }
                 else {
@@ -39,7 +39,7 @@ Image chessboard(unsigned int width, unsigned int height, unsigned int square_si
             int nh = h;
             int counter = 0;
             while (nw != 0) {
-                nw -= square_size;
+                nw -= square_size;      // needed a way to get a counter to have every other square be white which is why I added dummy numbers that will increase the counter for every iteration of the while loop
                 ++counter;
             }
             while (nh != 0) {
@@ -47,7 +47,7 @@ Image chessboard(unsigned int width, unsigned int height, unsigned int square_si
                 ++counter;
             }
             if (counter % 2 != 0) {
-                for (int sqh = 0; sqh < square_size; sqh++) {
+                for (int sqh = 0; sqh < square_size; sqh++) {       // could not figure out a way to not use the quad for loops
                     for (int sqw = 0; sqw < square_size; sqw++) {
                         auto p = &img.operator()(w + sqw, h + sqh);
                         *p = 255;
@@ -58,7 +58,7 @@ Image chessboard(unsigned int width, unsigned int height, unsigned int square_si
     }
     return img;}Image invert_image(Image const &image) {    Image invert(image.width(), image.height());    for (int h = 0; h < image.height(); h++) {
         for (int w = 0; w < image.width(); w++) {            auto p = &invert.operator()(w, h);
-            *p = 255 - image.operator()(w, h);        }    }    return invert;}
+            *p = 255 - image.operator()(w, h);      // reading the points of the original and subtracting 255 from it to have the inverted pixel        }    }    return invert;}
 
 inline void wait_on_enter() {
     std::string dummy;
@@ -67,7 +67,7 @@ inline void wait_on_enter() {
 }
 
 int main() {
-    /*Image b(4, 3);
+    Image b(4, 3);
     assert(b.height() == 3 && b.width() == 4);
     for (int h = 0; h < b.height(); h++) {
         for (int w = 0; w < b.width(); w++) {
@@ -88,7 +88,7 @@ int main() {
     Image newBoard400x300 = readPGM("board400x300.pgm");
     assert(board400x300 == newBoard400x300);
     Image newBoard400x300_inverse = readPGM("board400x300_inverse.pgm");
-    assert(board400x300_inverse == newBoard400x300_inverse);*/
+    assert(board400x300_inverse == newBoard400x300_inverse);
     Image Lena = readPGM("lena.pgm");
     Image lenaInverse = invert_image(Lena);
     writePGM(lenaInverse, "lenaInverse.pgm");
